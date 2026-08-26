@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meu Universo Criativo — Blog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Caveat:wght@500;600&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #F6F1E7;
+    --cream-deep: #EFE7D6;
+    --olive: #3E4A35;
+    --olive-deep: #2C3524;
+    --clay: #C17D4D;
+    --clay-soft: #E7C9A9;
+    --ink: #3A342C;
+    --ink-soft: #6B6355;
+    --paper: #FFFDF8;
+    --line: #DCD2BE;
+    --radius: 14px;
+    --serif: 'Cormorant Garamond', serif;
+    --sans: 'Work Sans', sans-serif;
+    --script: 'Caveat', cursive;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family: var(--sans);
+    background: var(--cream);
+    color: var(--ink);
+    line-height:1.5;
+  }
+  a{color:inherit; text-decoration:none;}
+  img, .ph{display:block; width:100%; height:100%; object-fit:cover;}
+
+  /* ---------- layout shell ---------- */
+  .shell{
+    display:grid;
+    grid-template-columns: 260px 1fr;
+    min-height:100vh;
+  }
+
+  /* ---------- sidebar ---------- */
+  .sidebar{
+    background: var(--paper);
+    border-right:1px solid var(--line);
+    padding: 28px 22px;
+    display:flex;
+    flex-direction:column;
+    gap:26px;
+    position:sticky;
+    top:0;
+    height:100vh;
+    overflow-y:auto;
+  }
+  .brand{ display:flex; flex-direction:column; align-items:center; gap:6px; text-align:center; }
+  .brand svg{ width:56px; height:56px; }
+  .brand .name{ font-family:var(--serif); font-size:1.5rem; letter-spacing:.14em; font-weight:600; margin-top:4px;}
+  .brand .tagline{ font-size:.68rem; letter-spacing:.22em; color:var(--ink-soft); }
+
+  .nav{ display:flex; flex-direction:column; gap:2px; }
+  .nav a{
+    display:flex; align-items:center; gap:12px;
+    padding:10px 12px; border-radius:8px;
+    font-size:.86rem; letter-spacing:.03em; color:var(--ink-soft);
+    transition: background .15s ease, color .15s ease;
+  }
+  .nav a svg{ width:18px; height:18px; flex-shrink:0; opacity:.8; }
+  .nav a:hover{ background:var(--cream-deep); color:var(--ink); }
+  .nav a.active{ background:var(--olive); color:var(--paper); font-weight:500; }
+  .nav a.active svg{ opacity:1; }
+
+  .quote-card{
+    background: var(--cream-deep);
+    border:1px dashed var(--line);
+    border-radius: var(--radius);
+    padding:18px 16px;
+    font-family: var(--serif);
+    font-style:italic;
+    font-size:1.05rem;
+    color: var(--olive-deep);
+    position:relative;
+  }
+  .quote-card::before{ content:"“"; font-size:2.4rem; font-family:var(--serif); color:var(--clay); position:absolute; top:-6px; left:10px; opacity:.6;}
+
+  .sidebar-foot{ margin-top:auto; display:flex; justify-content:center; gap:16px; padding-top:10px;}
+  .sidebar-foot a{ width:32px; height:32px; border-radius:50%; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; }
+  .sidebar-foot svg{ width:15px; height:15px; }
+  .sidebar-foot a:hover{ background:var(--olive); color:var(--paper); border-color:var(--olive); }
+
+  /* ---------- topbar (mobile) ---------- */
+  .topbar{ display:none; }
+
+  /* ---------- main ---------- */
+  main{ min-width:0; }
+
+  .hero{
+    position:relative;
+    min-height: 460px;
+    display:flex;
+    align-items:center;
+    padding: 48px 56px;
+    background:
+      radial-gradient(circle at 85% 20%, rgba(193,125,77,.16), transparent 55%),
+      linear-gradient(180deg, #FBF7EE 0%, #F3ECDB 100%);
+    border-bottom:1px solid var(--line);
+    overflow:hidden;
+    gap:40px;
+  }
+  .hero-copy{ max-width: 480px; z-index:2; }
+  .hero-copy .eyebrow{ font-family:var(--script); font-size:1.4rem; color:var(--clay); }
+  .hero-copy h1{ font-family:var(--serif); font-weight:600; font-size:2.7rem; line-height:1.1; margin:6px 0 18px; color:var(--olive-deep); }
+  .hero-copy p{ color:var(--ink-soft); font-size:1rem; margin-bottom:22px; max-width:400px;}
+  .signature{ font-family:var(--script); font-size:1.6rem; color:var(--olive-deep); margin-bottom:20px; }
+  .btn{
+    display:inline-block; background:var(--olive); color:var(--paper);
+    padding:13px 26px; border-radius:6px; font-size:.78rem; letter-spacing:.14em;
+    font-weight:500; border:none; cursor:pointer; transition:background .15s ease;
+  }
+  .btn:hover{ background:var(--olive-deep); }
+
+  .hero-art{ flex:1; height:340px; position:relative; z-index:1; }
+  .hero-art svg{ width:100%; height:100%; }
+
+  /* ---------- category strip ---------- */
+  .cat-strip{
+    background: var(--olive);
+    color: var(--clay-soft);
+    display:grid;
+    grid-template-columns: repeat(6, 1fr);
+  }
+  .cat-strip a{
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    padding:22px 8px; font-size:.68rem; letter-spacing:.1em; text-align:center; color:#EDE5D3;
+    border-right:1px solid rgba(255,255,255,.08);
+    transition: background .15s ease;
+  }
+  .cat-strip a:last-child{ border-right:none; }
+  .cat-strip a:hover{ background: rgba(255,255,255,.06); }
+  .cat-strip svg{ width:24px; height:24px; }
+
+  /* ---------- destaques ---------- */
+  .section{ padding: 40px 56px; }
+  .section-head{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:22px;}
+  .section-head h2{ font-family:var(--serif); font-size:1.5rem; letter-spacing:.1em; color:var(--olive-deep); }
+  .section-head .see-all{ font-size:.72rem; letter-spacing:.12em; color:var(--clay); font-weight:500; }
+
+  .card-grid{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:20px;
+  }
+  .card{
+    background: var(--paper);
+    border:1px solid var(--line);
+    border-radius: var(--radius);
+    overflow:hidden;
+    display:flex; flex-direction:column;
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .card:hover{ transform: translateY(-4px); box-shadow: 0 10px 24px rgba(60,50,30,.08); }
+  .card .thumb{ height:150px; background:var(--cream-deep); position:relative; }
+  .card .thumb svg{ width:100%; height:100%; }
+  .card .body{ padding:14px 16px 18px; }
+  .card .tag{ font-size:.64rem; letter-spacing:.14em; color:var(--clay); font-weight:600; }
+  .card h3{ font-family:var(--serif); font-size:1.15rem; margin:6px 0 10px; color:var(--ink); line-height:1.25;}
+  .card .read{ font-size:.75rem; color:var(--olive); font-weight:500; }
+
+  /* ---------- diario criativo ---------- */
+  .diario{
+    background: var(--cream-deep);
+    border-top:1px solid var(--line);
+    padding: 40px 56px 56px;
+    display:grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap:36px;
+  }
+  .diario h2{ font-family:var(--serif); font-size:1.5rem; color:var(--olive-deep); letter-spacing:.06em;}
+  .diario .sub{ font-family:var(--script); font-size:1.2rem; color:var(--clay); margin-left:10px;}
+  .diario-box{
+    margin-top:16px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius: var(--radius);
+    min-height:180px;
+    padding:20px;
+    color:var(--ink-soft);
+    font-style:italic;
+    font-family:var(--serif);
+    font-size:1.05rem;
+  }
+  .registros{ margin-top:16px; display:flex; flex-direction:column; gap:14px;}
+  .registro{ display:flex; gap:14px; align-items:center; background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:10px; }
+  .registro .thumb{ width:56px; height:56px; border-radius:8px; background:var(--cream); flex-shrink:0; overflow:hidden;}
+  .registro .thumb svg{width:100%;height:100%;}
+  .registro p{ font-size:.85rem; color:var(--ink); }
+  .registro .heart{ margin-left:auto; color:var(--clay); font-size:1rem; }
+
+  footer{ text-align:center; padding:24px; font-size:.72rem; color:var(--ink-soft); }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 980px){
+    .card-grid{ grid-template-columns: repeat(2,1fr); }
+    .cat-strip{ grid-template-columns: repeat(3,1fr); }
+    .diario{ grid-template-columns:1fr; }
+    .hero{ flex-direction:column; text-align:left; }
+  }
+  @media (max-width: 720px){
+    .shell{ grid-template-columns: 1fr; }
+    .sidebar{ display:none; }
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 18px; background:var(--paper); border-bottom:1px solid var(--line);
+      position:sticky; top:0; z-index:10;
+    }
+    .topbar .brand{ flex-direction:row; gap:8px; }
+    .topbar .brand svg{ width:30px; height:30px; }
+    .topbar .brand .name{ font-size:1rem; }
+    .topbar .brand .tagline{ display:none; }
+    #menu-toggle{ background:none; border:none; font-size:1.4rem; color:var(--olive); cursor:pointer; }
+    .mobile-nav{
+      display:none; flex-direction:column; background:var(--paper); border-bottom:1px solid var(--line);
+      padding:10px 18px 18px;
+    }
+    .mobile-nav.open{ display:flex; }
+    .mobile-nav a{ padding:10px 4px; font-size:.9rem; color:var(--ink-soft); border-bottom:1px solid var(--cream-deep); }
+    .hero{ padding:32px 24px; }
+    .hero-copy h1{ font-size:2rem; }
+    .section{ padding:30px 24px; }
+    .diario{ padding:30px 24px 40px; }
+    .cat-strip{ grid-template-columns: repeat(2,1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <svg viewBox="0 0 64 64" fill="none" stroke="#3E4A35" stroke-width="1.6"><path d="M32 10c-9 0-15 7-15 15 0 5 2 8 4 11l-2 8 8-3c2 1 4 1 5 1"/><path d="M32 10c9 0 15 7 15 15 0 5-2 8-4 11l2 8-8-3c-2 1-4 1-5 1"/><path d="M32 10v34"/></svg>
+    <div>
+      <div class="name">SEU NOME</div>
+      <div class="tagline">ARTE · MENTE · EDUCAÇÃO</div>
+    </div>
+  </div>
+  <button id="menu-toggle" aria-label="Abrir menu">☰</button>
+</div>
+<nav class="mobile-nav" id="mobile-nav">
+  <a href="#hero">Início</a>
+  <a href="#sobre">Sobre mim</a>
+  <a href="#destaques">Destaques</a>
+  <a href="#diario">Diário Criativo</a>
+  <a href="#contato">Contato</a>
+</nav>
+
+<div class="shell">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <div class="brand">
+      <svg viewBox="0 0 64 64" fill="none" stroke="#3E4A35" stroke-width="1.6">
+        <path d="M32 10c-9 0-15 7-15 15 0 5 2 8 4 11l-2 8 8-3c2 1 4 1 5 1"/>
+        <path d="M32 10c9 0 15 7 15 15 0 5-2 8-4 11l2 8-8-3c-2 1-4 1-5 1"/>
+        <path d="M32 10v34"/>
+        <path d="M23 22c2 3 2 6 0 9"/><path d="M41 22c-2 3-2 6 0 9"/>
+      </svg>
+      <div class="name">SEU NOME</div>
+      <div class="tagline">ARTE · MENTE · EDUCAÇÃO</div>
+    </div>
+
+    <div class="nav">
+      <a href="#hero" class="active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>
+        Início
+      </a>
+      <a href="#sobre">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c1.5-4 4.2-6 7-6s5.5 2 7 6"/></svg>
+        Sobre mim
+      </a>
+      <a href="#neuroarte">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3c-4 0-7 3-7 7 0 2.3 1 3.7 2 5l-1 4 4-1.5c1 .3 1.4.3 2 .3"/></svg>
+        Neuroarte
+      </a>
+      <a href="#arteterapia">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 20s-7-4.4-9.3-8.9C1.4 8 3 5 6.2 5c2 0 3.4 1.1 4.3 2.4C11.4 6.1 12.8 5 14.8 5 18 5 19.6 8 18.3 11.1 16 15.6 12 20 12 20z"/></svg>
+        Arteterapia
+      </a>
+      <a href="#educacao">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6h11a3 3 0 0 1 3 3v10H7a3 3 0 0 1-3-3V6z"/><path d="M18 9h2v10h-2"/></svg>
+        Educação
+      </a>
+      <a href="#portfolio">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M3 17l5-5 4 4 3-3 5 5"/></svg>
+        Portfólio
+      </a>
+      <a href="#estudos">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h9v16H4z"/><path d="M13 5h7v16h-7"/></svg>
+        Estudos
+      </a>
+      <a href="#biblioteca">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 4v16l4-2 3 2 3-2 4 2V4z"/></svg>
+        Biblioteca
+      </a>
+      <a href="#diario">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.6-9.3-9C1.2 8.6 2.8 5 6.5 5c2 0 3.4 1.2 4.5 2.6C12.1 6.2 13.5 5 15.5 5 19.2 5 20.8 8.6 18.3 12 16 16.4 12 21 12 21z"/></svg>
+        Diário Criativo
+      </a>
+      <a href="#contato">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 6l9 7 9-7"/></svg>
+        Contato
+      </a>
+    </div>
+
+    <div class="quote-card">A arte não transforma apenas imagens, ela transforma pessoas.</div>
+
+    <div class="sidebar-foot">
+      <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor"/></svg></a>
+      <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M9 17c1-3 1.4-5.4 2-8.4a2.6 2.6 0 1 1 3 2.6c-.3 1.6-.6 3.4-2.2 3.4-1.6 0-2-1.6-1.6-3"/></svg></a>
+      <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="12" rx="3"/><path d="M11 10l4 2-4 2z" fill="currentColor" stroke="none"/></svg></a>
+      <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="7.5" cy="8" r="0.8" fill="currentColor"/><path d="M7.5 11v7M12 11v7M12 14c0-2 3-3 3.5-1v4"/></svg></a>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main>
+
+    <!-- HERO / MURAL -->
+    <section class="hero" id="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">Bem-vindo ao meu</div>
+        <h1>universo criativo!</h1>
+        <p>Aqui a arte encontra a ciência, a educação transforma e a criatividade cura.</p>
+        <div class="signature">Seu Nome ♡</div>
+        <a href="#sobre" class="btn">CONHEÇA MINHA HISTÓRIA</a>
+      </div>
+      <div class="hero-art">
+        <svg viewBox="0 0 320 300" fill="none">
+          <ellipse cx="160" cy="150" rx="150" ry="130" fill="#EFE7D6"/>
+          <path d="M120 90c-30 0-50 24-50 52 0 18 8 28 16 38l-6 26 26-10c8 4 14 4 20 2" stroke="#3E4A35" stroke-width="2" fill="none"/>
+          <path d="M120 90c30 0 50 24 50 52 0 18-8 28-16 38l6 26-26-10c-8 4-14 4-20 2" stroke="#3E4A35" stroke-width="2" fill="none"/>
+          <path d="M120 90v108" stroke="#3E4A35" stroke-width="2"/>
+          <path d="M108 108c6 8 6 16 0 24M132 108c-6 8-6 16 0 24" stroke="#3E4A35" stroke-width="1.4"/>
+          <g transform="translate(190,150)">
+            <ellipse cx="0" cy="0" rx="20" ry="14" fill="#C17D4D" opacity="0.85" transform="rotate(-20)"/>
+            <ellipse cx="6" cy="6" rx="20" ry="14" fill="#8FA06B" opacity="0.85" transform="rotate(24)"/>
+            <line x1="0" y1="-6" x2="6" y2="12" stroke="#3E4A35" stroke-width="1.6"/>
+          </g>
+          <path d="M40 230c30-14 70-14 100 0" stroke="#C17D4D" stroke-width="1.4" opacity="0.6"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- CATEGORY STRIP -->
+    <nav class="cat-strip">
+      <a href="#neuroarte">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3c-4 0-7 3-7 7 0 2.3 1 3.7 2 5l-1 4 4-1.5c1 .3 1.4.3 2 .3"/></svg>
+        NEUROCIÊNCIA<br>E DESENVOLVIMENTO
+      </a>
+      <a href="#artes">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="14" cy="9" r="1" fill="currentColor"/><circle cx="15" cy="14" r="1" fill="currentColor"/></svg>
+        ARTES VISUAIS<br>E CRIATIVIDADE
+      </a>
+      <a href="#musica">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18V5l10-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></svg>
+        MUSICALIZAÇÃO<br>E MÚSICA
+      </a>
+      <a href="#arteterapia">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20s-7-4.4-9.3-8.9C1.4 8 3 5 6.2 5c2 0 3.4 1.1 4.3 2.4C11.4 6.1 12.8 5 14.8 5 18 5 19.6 8 18.3 11.1 16 15.6 12 20 12 20z"/></svg>
+        ARTETERAPIA<br>E SAÚDE MENTAL
+      </a>
+      <a href="#educacao">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19V6a2 2 0 0 1 2-2h12v16H6a2 2 0 0 1-2-2z"/><path d="M8 7h8M8 11h8"/></svg>
+        EDUCAÇÃO<br>E INCLUSÃO
+      </a>
+      <a href="#estudos">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 20l14-14M13 3l7 7"/></svg>
+        ESTUDOS E<br>REFLEXÕES
+      </a>
+    </nav>
+
+    <!-- DESTAQUES -->
+    <section class="section" id="destaques">
+      <div class="section-head">
+        <h2>DESTAQUES</h2>
+        <a href="#" class="see-all">VER TODOS ›</a>
+      </div>
+      <div class="card-grid">
+        <article class="card">
+          <div class="thumb">
+            <svg viewBox="0 0 200 150"><rect width="200" height="150" fill="#EFE7D6"/><circle cx="100" cy="60" r="34" fill="#C17D4D" opacity=".5"/><path d="M60 130c14-30 66-30 80 0" fill="#3E4A35" opacity=".35"/></svg>
+          </div>
+          <div class="body">
+            <div class="tag">ESTUDO</div>
+            <h3>Título do estudo em destaque</h3>
+            <div class="read">leia mais →</div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="thumb">
+            <svg viewBox="0 0 200 150"><rect width="200" height="150" fill="#EFE7D6"/><rect x="55" y="45" width="90" height="65" rx="6" fill="#8FA06B" opacity=".45"/><circle cx="100" cy="55" r="10" fill="#C17D4D" opacity=".6"/></svg>
+          </div>
+          <div class="body">
+            <div class="tag">PROJETO</div>
+            <h3>Nome do projeto criativo</h3>
+            <div class="read">leia mais →</div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="thumb">
+            <svg viewBox="0 0 200 150"><rect width="200" height="150" fill="#EFE7D6"/><path d="M100 40c-24 0-40 18-40 38 0 12 5 19 11 27l-4 15 22-8c5 2 8 2 11 2" stroke="#3E4A35" stroke-width="2" fill="none"/></svg>
+          </div>
+          <div class="body">
+            <div class="tag">ARTIGO</div>
+            <h3>Assunto do artigo publicado</h3>
+            <div class="read">leia mais →</div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="thumb">
+            <svg viewBox="0 0 200 150"><rect width="200" height="150" fill="#EFE7D6"/><path d="M75 70c0-14 12-24 25-24s25 10 25 24c0 18-25 34-25 34s-25-16-25-34z" fill="#C17D4D" opacity=".5"/></svg>
+          </div>
+          <div class="body">
+            <div class="tag">REFLEXÃO</div>
+            <h3>Título breve da reflexão</h3>
+            <div class="read">leia mais →</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- DIARIO CRIATIVO -->
+    <section class="diario" id="diario">
+      <div>
+        <h2>DIÁRIO CRIATIVO <span class="sub">meu processo, minhas descobertas</span></h2>
+        <div class="diario-box">
+          "Hoje explorei uma nova técnica de aquarela, pensando em como as cores podem traduzir emoções que
+          nem sempre encontram palavras..."
+        </div>
+      </div>
+      <div>
+        <h2>ÚLTIMOS REGISTROS</h2>
+        <div class="registros">
+          <div class="registro">
+            <div class="thumb"><svg viewBox="0 0 60 60"><rect width="60" height="60" fill="#EFE7D6"/><circle cx="30" cy="30" r="14" fill="#8FA06B" opacity=".5"/></svg></div>
+            <p>Hoje: estudo sobre plasticidade cerebral e criatividade</p>
+            <span class="heart">♡</span>
+          </div>
+          <div class="registro">
+            <div class="thumb"><svg viewBox="0 0 60 60"><rect width="60" height="60" fill="#EFE7D6"/><circle cx="30" cy="30" r="14" fill="#C17D4D" opacity=".5"/></svg></div>
+            <p>Esboço novo para a série sobre emoções em aquarela</p>
+            <span class="heart">♡</span>
+          </div>
+          <div class="registro">
+            <div class="thumb"><svg viewBox="0 0 60 60"><rect width="60" height="60" fill="#EFE7D6"/><circle cx="30" cy="30" r="14" fill="#3E4A35" opacity=".35"/></svg></div>
+            <p>Anotações da leitura sobre arteterapia e inclusão</p>
+            <span class="heart">♡</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer id="contato">© 2026 Seu Nome — Arte · Mente · Educação</footer>
+  </main>
+</div>
+
+<script>
+  document.getElementById('menu-toggle').addEventListener('click', function(){
+    document.getElementById('mobile-nav').classList.toggle('open');
+  });
+  // active state on scroll for sidebar nav
+  const links = document.querySelectorAll('.nav a');
+  const sections = Array.from(links).map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+  window.addEventListener('scroll', () => {
+    let current = sections[0];
+    sections.forEach(sec => { if (window.scrollY >= sec.offsetTop - 120) current = sec; });
+    links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + current.id));
+  });
+</script>
+</body>
+</html>
